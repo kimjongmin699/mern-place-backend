@@ -1,5 +1,6 @@
 import { validationResult } from 'express-validator'
 import mongoose from 'mongoose'
+import HttpError from '../models/http-error'
 import Place from '../models/places'
 import User from '../models/users'
 import getCoordsForAddress from '../util/location'
@@ -48,7 +49,7 @@ export const getPlaceById = async (req, res, next) => {
   try {
     place = await Place.findById(placeId)
   } catch (err) {
-    const error = new Error('Could aa not find place', 500)
+    const error = new HttpError('Could not find place', 500)
     return next(error)
   }
 
@@ -71,12 +72,12 @@ export const getPlacesByUserId = async (req, res, next) => {
     //places = await Place.find({ creator: userId })
     userWithPlaces = await User.findById(userId).populate('places')
   } catch (err) {
-    const error = new Error('Could not find places', 500)
+    const error = new HttpError('Could not find places', 500)
     return next(error)
   }
   if (!userWithPlaces || userWithPlaces.length === 0) {
     return res.status(404).json({ message: 'aaa could not find place' })
-    // return next(new Error('could not find place', 404))
+    // return next(new HttpError('could not find place', 404))
   }
   console.log(userWithPlaces)
   res.status(200).json({
@@ -120,12 +121,12 @@ export const createPlace = async (req, res, next) => {
   try {
     user = await User.findById(creator)
   } catch (err) {
-    const error = new Error('Please try again', 500)
+    const error = new HttpError('Please try again', 500)
     return next(error)
   }
 
   if (!user) {
-    const error = new Error('Could not find user', 404)
+    const error = new HttpError('Could not find user', 404)
     return next(error)
   }
 
@@ -142,7 +143,7 @@ export const createPlace = async (req, res, next) => {
     user.places.push(createPlace._id)
     await user.save()
   } catch (err) {
-    const error = new Error('Create place failed', 500)
+    const error = new HttpError('Create place failed', 500)
     return next(error)
   }
 
@@ -162,13 +163,13 @@ export const updatePlaceById = async (req, res, next) => {
   try {
     place = await Place.findById(placeId)
   } catch (err) {
-    const error = new Error('Could not update', 500)
+    const error = new HttpError('Could not update', 500)
     return next(error)
   }
 
   if (place.creator.toString() !== req.userData.userId) {
     //mongoose가 creator을 id로 인식할 수 있게 toString()를 붙임.
-    const error = new Error('Could not update', 401)
+    const error = new HttpError('Could not update', 401)
     return next(error)
   }
 
@@ -178,7 +179,7 @@ export const updatePlaceById = async (req, res, next) => {
   try {
     await place.save()
   } catch (err) {
-    const error = new Error('Could not update, something wrong', 500)
+    const error = new HttpError('Could not update, something wrong', 500)
     return next(error)
   }
 
@@ -190,18 +191,18 @@ export const deletePlaceById = async (req, res, next) => {
   try {
     place = await Place.findById(placeId).populate('creator')
   } catch (err) {
-    const error = new Error('Could not delete, something wrong', 500)
+    const error = new HttpError('Could not delete, something wrong', 500)
     return next(error)
   }
 
   if (!place) {
-    const error = new Error('Could not find place for this id', 404)
+    const error = new HttpError('Could not find place for this id', 404)
     return next(error)
   }
 
   if (place.creator.id !== req.userData.userId) {
     ///toString()을 않붙이는 이유는 getter를 해주어서
-    const error = new Error('You are not edit', 401)
+    const error = new HttpError('You are not edit', 401)
     return next(error)
   }
 
@@ -216,7 +217,7 @@ export const deletePlaceById = async (req, res, next) => {
     // await sess.commitTransaction()
     await place.remove()
   } catch (err) {
-    const error = new Error('Could not delete, something wrong', 500)
+    const error = new HttpError('Could not delete, something wrong', 500)
     return next(error)
   }
   fs.unlink(imagePath, (err) => {

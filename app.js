@@ -1,5 +1,7 @@
 import express from 'express'
+import HttpError from './models/http-error'
 const bodyParser = require('body-parser')
+import './db'
 
 import placesRouter from './routes/place-routes'
 import usersRouter from './routes/users-routes'
@@ -25,7 +27,7 @@ app.use('/api/places', placesRouter)
 app.use('/api/users', usersRouter)
 
 app.use((req, res, next) => {
-  const error = new Error('Could not find this route.', 404)
+  const error = new HttpError('Could not find this route.', 404)
   throw error
 })
 
@@ -43,4 +45,4 @@ app.use((error, req, res, next) => {
     .json({ message: error.message || 'An unknown error occer!' })
 })
 
-app.listen(process.env.PORT || 5000, () => console.log(`Server start in 5000`))
+app.listen(5000, () => console.log(`Server start in 5000`))

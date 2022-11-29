@@ -1,4 +1,5 @@
 import { validationResult } from 'express-validator'
+import HttpError from '../models/http-error'
 import User from '../models/users'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
@@ -50,12 +51,12 @@ export const signUp = async (req, res, next) => {
   try {
     existingUser = await User.findOne({ email: email })
   } catch (err) {
-    const error = new Error('User is already exist111', 500)
+    const error = new HttpError('User is already exist111', 500)
     return next(error)
   }
 
   if (existingUser) {
-    const error = new Error('User exists alreadt', 400)
+    const error = new HttpError('User exists alreadt', 400)
     return next(error)
   }
 
@@ -63,7 +64,7 @@ export const signUp = async (req, res, next) => {
   try {
     hashedPassword = await bcrypt.hash(password, 12)
   } catch (err) {
-    const error = new Error('could not create User', 500)
+    const error = new HttpError('could not create User', 500)
     return next(error)
   }
 
@@ -78,7 +79,7 @@ export const signUp = async (req, res, next) => {
   try {
     await createUser.save()
   } catch (err) {
-    const error = new Error('Creating User failed', 500)
+    const error = new HttpError('Creating User failed', 500)
     return next(error)
   }
 
@@ -90,7 +91,7 @@ export const signUp = async (req, res, next) => {
       { expiresIn: '200h' }
     )
   } catch (err) {
-    const error = new Error('making token failed', 500)
+    const error = new HttpError('making token failed', 500)
     return next(error)
   }
 
@@ -107,12 +108,12 @@ export const login = async (req, res, next) => {
   try {
     existingUser = await User.findOne({ email: email })
   } catch (err) {
-    const error = new Error('Logged in fail')
+    const error = new HttpError('Logged in fail')
     return next(error)
   }
 
   if (!existingUser) {
-    const error = new Error('Invalid credential', 401)
+    const error = new HttpError('Invalid credential', 401)
     return next(error)
   }
 
@@ -120,11 +121,11 @@ export const login = async (req, res, next) => {
   try {
     isValidPassword = await bcrypt.compare(password, existingUser.password)
   } catch (err) {
-    const error = new Error('Could not login', 500)
+    const error = new HttpError('Could not login', 500)
     return next(error)
   }
   if (!isValidPassword) {
-    const error = new Error('Invalid password', 401)
+    const error = new HttpError('Invalid password', 401)
     return next(error)
   }
 
@@ -136,7 +137,7 @@ export const login = async (req, res, next) => {
       { expiresIn: '200h' }
     )
   } catch (err) {
-    const error = new Error('making token failed', 500)
+    const error = new HttpError('making token failed', 500)
     return next(error)
   }
 

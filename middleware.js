@@ -2,7 +2,7 @@ import express from 'express'
 import multer from 'multer'
 import multerS3 from 'multer-s3'
 import aws from 'aws-sdk'
-import HttpError from './models/er'
+import HttpError from './models/http-error'
 import jwt from 'jsonwebtoken'
 
 const AWS_ID = 'AKIAUDWXLVGIJLGNJ5OC'
