@@ -10,7 +10,7 @@ const {
   updatePlaceById,
   deletePlaceById,
 } = require('../controllers/places-controller')
-const HttpError = require('../models/http-error')
+const HttpError = require('../models/er')
 
 const placesRouter = express.Router()
 

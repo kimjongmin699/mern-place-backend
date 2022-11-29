@@ -1,5 +1,5 @@
 import express from 'express'
-import HttpError from './models/http-error'
+import HttpError from './models/er'
 const bodyParser = require('body-parser')
 import './db'
 
