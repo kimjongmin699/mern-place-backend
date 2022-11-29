@@ -1,6 +1,6 @@
 import express from 'express'
 const bodyParser = require('body-parser')
-import './db'
+import '../db'
 
 import placesRouter from './routes/place-routes'
 import usersRouter from './routes/users-routes'
