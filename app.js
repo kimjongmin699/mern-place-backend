@@ -1,5 +1,4 @@
 import express from 'express'
-import HttpError from './models/er'
 const bodyParser = require('body-parser')
 import './db'
 
@@ -27,7 +26,7 @@ app.use('/api/places', placesRouter)
 app.use('/api/users', usersRouter)
 
 app.use((req, res, next) => {
-  const error = new HttpError('Could not find this route.', 404)
+  const error = new Error('Could not find this route.', 404)
   throw error
 })
 
