@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start11": "nodemon --exec babel-node app.js",
@@ -32,5 +33,4 @@
     "babel-loader": "^9.0.1",
     "nodemon": "^2.0.20"
   }
-
 }
