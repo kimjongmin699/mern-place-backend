@@ -5,11 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start12": "nodemon --exec babel-node app.js",
-    "start": "node app.js",
-    "build": "npm run build:server",
-    "build:server": "babel  -d build",
-    "start1": "node build/app.js"
+    "start11": "nodemon --exec babel-node app.js",
+    "start": "node app.js"
   },
   "author": "",
   "license": "ISC",
