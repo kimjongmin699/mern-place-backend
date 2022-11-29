@@ -6,8 +6,8 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start11": "nodemon --exec babel-node app.js",
-    "start": "node --experimental-modules app.js"
+    "start112": "nodemon --exec babel-node app.js",
+    "start": "node app.js"
   },
   "author": "",
   "license": "ISC",
