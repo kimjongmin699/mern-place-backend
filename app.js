@@ -45,4 +45,4 @@ app.use((error, req, res, next) => {
     .json({ message: error.message || 'An unknown error occer!' })
 })
 
-app.listen(5000, () => console.log(`Server start in 5000`))
+app.listen(process.env.PORT || 5000, () => console.log(`Server start in 5000`))
