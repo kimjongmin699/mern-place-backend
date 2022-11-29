@@ -49,7 +49,7 @@ export const getPlaceById = async (req, res, next) => {
   try {
     place = await Place.findById(placeId)
   } catch (err) {
-    const error = new HttpError('Could not find place', 500)
+    const error = new HttpError('Could aa not find place', 500)
     return next(error)
   }
 
